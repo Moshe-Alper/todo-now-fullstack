@@ -7,5 +7,5 @@ import { Component } from '@angular/core'
   styleUrl: './app-header.component.scss'
 })
 export class AppHeaderComponent {
-
+  logoPath = 'assets/img/logo.png'
 }
