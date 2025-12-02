@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
+import { dummyTodos } from '../data/dummy-todos'
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
-
-  constructor() { }
+  private todos = dummyTodos
+  
+  constructor() { 
+    
+    
+  }
 }

@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './cmps/app-header/app-header.component';
 import { TodoListComponent } from './cmps/todo-list/todo-list.component';
 import { TodoPreviewComponent } from './cmps/todo-preview/todo-preview.component';
+import { AddTodoComponent } from './cmps/add-todo/add-todo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppHeaderComponent,
     TodoListComponent,
-    TodoPreviewComponent
+    TodoPreviewComponent,
+    AddTodoComponent
   ],
   imports: [
     BrowserModule,
