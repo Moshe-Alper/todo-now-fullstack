@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { dummyTodos } from '../data/dummy-todos'
-import { Task } from '../models/task.model'
+import { Todo } from '../models/todo.model'
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
   private todos = dummyTodos
-  private todosSubject = new BehaviorSubject<Task[]>([...this.todos])
-  public todos$: Observable<Task[]> = this.todosSubject.asObservable()
+  private todosSubject = new BehaviorSubject<Todo[]>([...this.todos])
+  public todos$: Observable<Todo[]> = this.todosSubject.asObservable()
   
   constructor() {
     const todos = localStorage.getItem('todos')
@@ -20,12 +20,12 @@ export class TodoService {
     }
   }
 
-  getTodos(): Task[] {
+  getTodos(): Todo[] {
     return [...this.todos]
   }
 
-  addTodo(title: string): Task {
-    const newTodo: Task = {
+  addTodo(title: string): Todo {
+    const newTodo: Todo = {
       id: this.generateId(),
       title: title.trim(),
       isCompleted: false,
@@ -36,7 +36,7 @@ export class TodoService {
     return newTodo
   }
 
-  updateTodo(updatedTodo: Task): void {
+  updateTodo(updatedTodo: Todo): void {
     const index = this.todos.findIndex(todo => todo.id === updatedTodo.id)
     if (index !== -1) {
       this.todos[index] = { ...updatedTodo }

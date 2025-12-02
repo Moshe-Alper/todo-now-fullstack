@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { TodoService } from '../../services/todo.service'
-import { Task } from '../../models/task.model'
+import { Todo } from '../../models/todo.model'
 
 @Component({
   selector: 'todo-preview',
@@ -10,7 +10,7 @@ import { Task } from '../../models/task.model'
   styleUrl: './todo-preview.component.scss'
 })
 export class TodoPreviewComponent implements OnInit {
-  @Input() todo!: Task
+  @Input() todo!: Todo
   isEditing = false
   editForm: FormGroup
 
@@ -43,7 +43,7 @@ export class TodoPreviewComponent implements OnInit {
 
   saveEdit(): void {
     if (this.editForm.valid) {
-      const updatedTodo: Task = {
+      const updatedTodo: Todo = {
         ...this.todo,
         title: this.editForm.get('title')?.value.trim()
       }

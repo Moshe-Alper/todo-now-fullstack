@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Subscription } from 'rxjs'
 import { TodoService } from '../../services/todo.service'
-import { Task } from '../../models/task.model'
+import { Todo } from '../../models/todo.model'
 
 @Component({
   selector: 'todo-list',
@@ -10,7 +10,7 @@ import { Task } from '../../models/task.model'
   styleUrl: './todo-list.component.scss'
 })
 export class TodoListComponent implements OnInit, OnDestroy {
-  todos: Task[] = []
+  todos: Todo[] = []
   private subscription?: Subscription
 
   constructor(private todoService: TodoService) {}
