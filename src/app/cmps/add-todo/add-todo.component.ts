@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TodoService } from '../../services/todo.service';
+import { Component } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { TodoService } from '../../services/todo.service'
 
 @Component({
   selector: 'add-todo',
@@ -9,7 +9,7 @@ import { TodoService } from '../../services/todo.service';
   styleUrl: './add-todo.component.scss'
 })
 export class AddTodoComponent {
-  todoForm: FormGroup;
+  todoForm: FormGroup
 
   constructor(
     private fb: FormBuilder,
@@ -22,9 +22,9 @@ export class AddTodoComponent {
 
   onSubmit(): void {
     if (this.todoForm.valid) {
-      const title = this.todoForm.get('title')?.value;
-      this.todoService.addTodo(title);
-      this.todoForm.reset();
+      const title = this.todoForm.get('title')?.value
+      this.todoService.addTodo(title)
+      this.todoForm.reset()
     }
   }
 }
