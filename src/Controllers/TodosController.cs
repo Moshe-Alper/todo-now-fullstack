@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TodoApi.Models;
 using TodoApi.Data;
@@ -12,76 +11,101 @@ namespace TodoApi.Controllers
     [ApiController]
     public class TodosController : ControllerBase
     {
-        private readonly TodoContext _context;
+        private readonly ICosmosDbService _cosmosDbService;
 
-        public TodosController(TodoContext context)
+        public TodosController(ICosmosDbService cosmosDbService)
         {
-            _context = context;
+            _cosmosDbService = cosmosDbService;
+        }
+
+        private string GetUserId()
+        {
+            // Try to get userId from header first, then query string, then default to "demo"
+            var userId = Request.Headers["X-User-Id"].ToString();
+            if (string.IsNullOrEmpty(userId))
+            {
+                userId = Request.Query["userId"].ToString();
+            }
+            if (string.IsNullOrEmpty(userId))
+            {
+                userId = "demo"; // Hardcoded default as per requirements
+            }
+            return userId;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Todo>> GetTodos()
+        public async Task<ActionResult<IEnumerable<Todo>>> GetTodos()
         {
-            return _context.Todos.ToList();
+            var userId = GetUserId();
+            var todos = await _cosmosDbService.GetTodosAsync(userId);
+            return Ok(todos);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Todo> GetTodoById(int id)
+        public async Task<ActionResult<Todo>> GetTodoById(string id)
         {
-            var todo = _context.Todos.Find(id);
+            var userId = GetUserId();
+            var todo = await _cosmosDbService.GetTodoByIdAsync(id, userId);
             if (todo == null)
             {
                 return NotFound();
             }
-            return todo;
+            return Ok(todo);
         }
 
         [HttpPost]
         public async Task<ActionResult<Todo>> CreateTodo(Todo todo)
         {
-            _context.Todos.Add(todo);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetTodoById), new { id = todo.Id }, todo);
+            var userId = GetUserId();
+            
+            // Ensure userId is set and Id is generated if not provided
+            todo.UserId = userId;
+            if (string.IsNullOrEmpty(todo.Id))
+            {
+                todo.Id = Guid.NewGuid().ToString();
+            }
+
+            var createdTodo = await _cosmosDbService.CreateTodoAsync(todo);
+            return CreatedAtAction(nameof(GetTodoById), new { id = createdTodo.Id }, createdTodo);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTodo(int id, Todo todo)
+        public async Task<IActionResult> UpdateTodo(string id, Todo todo)
         {
+            var userId = GetUserId();
+
             if (id != todo.Id)
             {
-                return BadRequest();
+                return BadRequest("Todo ID mismatch");
             }
 
-            _context.Entry(todo).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            // Ensure userId matches
+            todo.UserId = userId;
 
-            try
+            // Check if todo exists
+            var existingTodo = await _cosmosDbService.GetTodoByIdAsync(id, userId);
+            if (existingTodo == null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Todos.Any(e => e.Id == id))
-                {
-                    return NotFound();
-                }
-                throw;
+                return NotFound();
             }
 
+            await _cosmosDbService.UpdateTodoAsync(id, todo);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTodo(int id)
+        public async Task<IActionResult> DeleteTodo(string id)
         {
-            var todo = await _context.Todos.FindAsync(id);
+            var userId = GetUserId();
+
+            // Check if todo exists
+            var todo = await _cosmosDbService.GetTodoByIdAsync(id, userId);
             if (todo == null)
             {
                 return NotFound();
             }
 
-            _context.Todos.Remove(todo);
-            await _context.SaveChangesAsync();
-
+            await _cosmosDbService.DeleteTodoAsync(id, userId);
             return NoContent();
         }
     }
