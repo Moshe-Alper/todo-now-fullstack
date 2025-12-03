@@ -11,8 +11,4 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="wwwroot/**/*" />
-  </ItemGroup>
-
 </Project>
