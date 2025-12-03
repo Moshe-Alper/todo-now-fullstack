@@ -95,6 +95,12 @@ namespace TodoApi.Controllers
             {
                 todo.Id = Guid.NewGuid().ToString();
             }
+            
+            // Set createdAt if not provided (use current timestamp)
+            if (todo.CreatedAt == 0)
+            {
+                todo.CreatedAt = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            }
 
             var createdTodo = await _todoService.CreateTodoAsync(todo);
             return CreatedAtAction(

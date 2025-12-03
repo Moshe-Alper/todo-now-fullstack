@@ -13,6 +13,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddControllers();
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularDev", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
 // Configure Cosmos DB
 var cosmosConnectionString = builder.Configuration["CosmosDb:ConnectionString"] 
     ?? throw new InvalidOperationException(
@@ -35,6 +47,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+
+// Use CORS before routing
+app.UseCors("AllowAngularDev");
 
 app.UseRouting();
 app.MapControllers();

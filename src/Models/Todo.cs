@@ -15,5 +15,8 @@ namespace TodoApi.Models
         
         [JsonProperty("isCompleted")]
         public bool IsCompleted { get; set; }
+        
+        [JsonProperty("createdAt")]
+        public long CreatedAt { get; set; }
     }
 }
