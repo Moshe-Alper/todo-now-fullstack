@@ -65,49 +65,83 @@ export class TodoService {
   }
 
   addTodo(title: string): void {
+    const tempId = `temp-${Date.now()}`
     const newTodo: Todo = {
-      id: '',
+      id: tempId,
       title: title.trim(),
       isCompleted: false,
       createdAt: Date.now()
     }
     
-    this.http.post<Todo>(this.apiUrl, newTodo, this.httpOptions).subscribe({
+    // Optimistically add to UI immediately
+    this.todosSubject.next([newTodo, ...this.todosSubject.value])
+    
+    // Create on backend
+    const todoToCreate = { ...newTodo, id: '' }
+    this.http.post<Todo>(this.apiUrl, todoToCreate, this.httpOptions).subscribe({
       next: (createdTodo) => {
+        // Replace temp todo with server version
         const currentTodos = this.todosSubject.value
-        this.todosSubject.next([createdTodo, ...currentTodos])
+        const index = currentTodos.findIndex(t => t.id === tempId)
+        if (index !== -1) {
+          const updatedTodos = [...currentTodos]
+          updatedTodos[index] = createdTodo
+          this.todosSubject.next(updatedTodos)
+        }
       },
       error: (error) => {
         console.error('Error adding todo:', error)
+        // Remove on error
+        const currentTodos = this.todosSubject.value.filter(t => t.id !== tempId)
+        this.todosSubject.next(currentTodos)
       }
     })
   }
 
   updateTodo(updatedTodo: Todo): void {
+    const currentTodos = this.todosSubject.value
+    const index = currentTodos.findIndex(todo => todo.id === updatedTodo.id)
+    if (index === -1) return
+    
+    const originalTodo = { ...currentTodos[index] }
+    
+    // Optimistically update UI immediately
+    const updatedTodos = [...currentTodos]
+    updatedTodos[index] = { ...updatedTodo }
+    this.todosSubject.next(updatedTodos)
+    
+    // Update on backend
     this.http.put<Todo>(`${this.apiUrl}/${updatedTodo.id}`, updatedTodo, this.httpOptions).subscribe({
       next: () => {
-        const currentTodos = this.todosSubject.value
-        const index = currentTodos.findIndex(todo => todo.id === updatedTodo.id)
-        if (index !== -1) {
-          const updatedTodos = [...currentTodos]
-          updatedTodos[index] = { ...updatedTodo }
-          this.todosSubject.next(updatedTodos)
-        }
+        // Successfully updated
       },
       error: (error) => {
         console.error('Error updating todo:', error)
+        // Rollback on error
+        const rollbackTodos = [...this.todosSubject.value]
+        rollbackTodos[index] = originalTodo
+        this.todosSubject.next(rollbackTodos)
       }
     })
   }
 
   removeTodo(id: string): void {
+    const todoToDelete = this.todosSubject.value.find(todo => todo.id === id)
+    if (!todoToDelete) return
+
+    // Optimistically remove from UI immediately
+    const currentTodos = this.todosSubject.value.filter(todo => todo.id !== id)
+    this.todosSubject.next(currentTodos)
+
+    // Delete from backend
     this.http.delete(`${this.apiUrl}/${id}`, this.httpOptions).subscribe({
       next: () => {
-        const currentTodos = this.todosSubject.value.filter(todo => todo.id !== id)
-        this.todosSubject.next(currentTodos)
+        // Successfully deleted
       },
       error: (error) => {
         console.error('Error removing todo:', error)
+        // Restore on error
+        this.todosSubject.next([...currentTodos, todoToDelete])
       }
     })
   }

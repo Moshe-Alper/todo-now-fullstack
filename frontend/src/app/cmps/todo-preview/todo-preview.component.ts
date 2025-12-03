@@ -53,8 +53,7 @@ export class TodoPreviewComponent implements OnInit {
   }
 
   deleteTodo(): void {
-    if (confirm('Are you sure you want to delete this todo?')) {
-      this.todoService.removeTodo(this.todo.id)
-    }
+    // Delete immediately - no confirmation needed
+    this.todoService.removeTodo(this.todo.id)
   }
 }
