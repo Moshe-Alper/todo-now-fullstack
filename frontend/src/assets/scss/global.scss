@@ -1,0 +1,14 @@
+// Setup
+@use "setup/variables";
+@use "setup/functions";
+
+// Basics
+
+@use "basics/base";
+@use "basics/helpers";
+@use "basics/layout";
+@use "basics/modals";
+@use "basics/animations";
+
+/* You can add global styles to this file, and also import other style files */
+

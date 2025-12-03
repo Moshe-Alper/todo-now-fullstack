@@ -1,0 +1,87 @@
+@use "../../../assets/scss/setup/variables" as *;
+
+.add-todo-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: $spacing-md;
+  padding: $spacing-xl;
+  background: $bg-primary;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-lg;
+  border: 1px solid $gray-200;
+  transition: box-shadow $transition-base, transform $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-xl;
+  }
+
+  &:focus-within {
+    box-shadow: $shadow-xl, 0 0 0 3px $primary-lighter;
+    transform: translateY(-2px);
+  }
+
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-xl $spacing-2xl;
+  }
+}
+
+.todo-input {
+  grid-column: 1;
+  padding: $spacing-md $spacing-lg;
+  border: 2px solid $gray-300;
+  border-radius: $radius-lg;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+  background: $bg-primary;
+  transition: border-color $transition-base, box-shadow $transition-base;
+
+  &::placeholder {
+    color: $text-tertiary;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    box-shadow: 0 0 0 3px $primary-lighter;
+  }
+
+  &:hover:not(:focus) {
+    border-color: $gray-400;
+  }
+}
+
+.add-btn {
+  grid-column: 2;
+  padding: $spacing-md $spacing-xl;
+  background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+  color: $text-inverse;
+  border: none;
+  border-radius: $radius-lg;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: all $transition-base;
+  box-shadow: $shadow-md;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, $primary-dark 0%, $primary 100%);
+    box-shadow: $shadow-lg;
+    transform: translateY(-2px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: $shadow-sm;
+  }
+
+  &:disabled {
+    background: $gray-300;
+    color: $gray-500;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+}
+

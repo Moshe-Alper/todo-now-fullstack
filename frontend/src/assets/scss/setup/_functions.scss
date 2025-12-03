@@ -1,0 +1,26 @@
+// Utility Functions
+
+@function spacing($multiplier: 1) {
+  @return $spacing-md * $multiplier;
+}
+
+@function rem($pixels, $base: 16) {
+  @return ($pixels / $base) * 1rem;
+}
+
+@function em($pixels, $base: 16) {
+  @return ($pixels / $base) * 1em;
+}
+
+// Color manipulation functions
+@function lighten-color($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+
+@function darken-color($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}
+
+@function alpha($color, $opacity) {
+  @return rgba($color, $opacity);
+}

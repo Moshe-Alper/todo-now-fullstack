@@ -1,0 +1,8 @@
+<section class="todo-list">
+    <ul *ngIf="todos().length > 0">
+        <li *ngFor="let todo of todos()">
+            <todo-preview [todo]="todo"/>
+        </li>
+    </ul>
+    <p *ngIf="todos().length === 0" class="empty-message">{{ emptyMessage() }}</p>
+</section>

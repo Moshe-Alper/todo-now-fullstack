@@ -1,0 +1,64 @@
+@use "../setup/variables" as *;
+
+// Text Utilities
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+// Spacing Utilities
+.mt-auto {
+  margin-top: auto;
+}
+
+.mb-auto {
+  margin-bottom: auto;
+}
+
+// Visibility
+.hidden {
+  display: none;
+}
+
+// Cursor
+.cursor-pointer {
+  cursor: pointer;
+}
+
+// Overflow
+.overflow-hidden {
+  overflow: hidden;
+}
+
+// Position
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.fixed {
+  position: fixed;
+}
+
+// Display
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.inline {
+  display: inline;
+}

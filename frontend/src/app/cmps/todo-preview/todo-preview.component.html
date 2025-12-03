@@ -1,0 +1,31 @@
+<div class="todo-item" [class.completed]="todo.isCompleted">
+  <input 
+    type="checkbox" 
+    [checked]="todo.isCompleted" 
+    (change)="toggleComplete()"
+    class="todo-checkbox"
+  />
+  
+  <div class="todo-content" *ngIf="!isEditing">
+    <span class="todo-title" [class.completed-text]="todo.isCompleted">
+      {{ todo.title }}
+    </span>
+    <div class="todo-actions">
+      <button (click)="startEdit()" class="btn-edit">Edit</button>
+      <button (click)="deleteTodo()" class="btn-delete">Delete</button>
+    </div>
+  </div>
+
+  <form [formGroup]="editForm" (ngSubmit)="saveEdit()" class="edit-form" *ngIf="isEditing">
+    <input 
+      type="text" 
+      formControlName="title" 
+      class="edit-input"
+      (keyup.escape)="cancelEdit()"
+    />
+    <div class="edit-actions">
+      <button type="submit" [disabled]="editForm.invalid" class="btn-save">Save</button>
+      <button type="button" (click)="cancelEdit()" class="btn-cancel">Cancel</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,15 @@
+@use "../../../assets/scss/setup/variables" as *;
+
+.todo-index {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-xl;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $spacing-xl;
+
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-2xl;
+    gap: $spacing-2xl;
+  }
+}

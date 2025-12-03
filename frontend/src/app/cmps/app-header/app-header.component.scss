@@ -1,0 +1,66 @@
+@use "../../../assets/scss/setup/variables" as *;
+
+.app-header {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-md;
+  padding: $spacing-xl $spacing-lg;
+  background: linear-gradient(135deg, $primary 0%, $secondary 100%);
+  box-shadow: $shadow-lg;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-xl $spacing-2xl;
+  }
+
+  .header-content {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: $spacing-md $spacing-lg;
+    align-items: center;
+    max-width: $container-xl;
+    margin: 0 auto;
+    width: 100%;
+
+    img {
+      grid-row: 1 / -1;
+      width: 64px;
+      height: 64px;
+      border-radius: $radius-lg;
+      object-fit: cover;
+      box-shadow: $shadow-md;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      transition: transform $transition-base, box-shadow $transition-base;
+
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: $shadow-lg;
+      }
+    }
+
+    h1 {
+      grid-column: 2;
+      grid-row: 1;
+      font-size: $font-size-3xl;
+      font-weight: $font-weight-bold;
+      color: $text-inverse;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin: 0;
+
+      @media (min-width: $breakpoint-md) {
+        font-size: $font-size-4xl;
+      }
+    }
+
+    p {
+      grid-column: 2;
+      grid-row: 2;
+      font-size: $font-size-lg;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0;
+    }
+  }
+}

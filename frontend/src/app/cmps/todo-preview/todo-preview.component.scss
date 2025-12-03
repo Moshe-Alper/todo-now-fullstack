@@ -1,0 +1,228 @@
+@use "sass:color";
+@use "../../../assets/scss/setup/variables" as *;
+
+.todo-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: $spacing-md;
+  align-items: center;
+  padding: $spacing-lg;
+  background: $bg-primary;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-md;
+  border: 1px solid $gray-200;
+  transition: all $transition-base;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: $primary;
+    transform: scaleY(0);
+    transition: transform $transition-base;
+  }
+
+  &:hover {
+    box-shadow: $shadow-lg;
+    transform: translateY(-2px);
+    border-color: $gray-300;
+
+    &::before {
+      transform: scaleY(1);
+    }
+  }
+
+  &.completed {
+    opacity: 0.75;
+    background: $gray-50;
+
+    &::before {
+      background: $success;
+      transform: scaleY(1);
+    }
+
+    .todo-title {
+      color: $text-tertiary;
+    }
+  }
+}
+
+.todo-checkbox {
+  grid-column: 1;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  accent-color: $primary;
+  transition: transform $transition-fast;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.todo-content {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: $spacing-md;
+  align-items: center;
+  min-width: 0;
+}
+
+.todo-title {
+  grid-column: 1;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+  word-break: break-word;
+  line-height: $line-height-normal;
+  transition: all $transition-base;
+
+  &.completed-text {
+    text-decoration: line-through;
+    color: $text-tertiary;
+  }
+}
+
+.todo-actions {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: $spacing-sm;
+}
+
+.btn-edit,
+.btn-delete,
+.btn-save,
+.btn-cancel {
+  padding: $spacing-sm $spacing-md;
+  border: none;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all $transition-base;
+  white-space: nowrap;
+  box-shadow: $shadow-sm;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: $shadow-sm;
+  }
+}
+
+.btn-edit {
+  background: linear-gradient(135deg, $info 0%, $info 100%);
+  color: $text-inverse;
+
+  &:hover {
+    background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+  }
+}
+
+.btn-delete {
+  background: linear-gradient(135deg, $danger 0%, $danger-dark 100%);
+  color: $text-inverse;
+
+  &:hover {
+    background: linear-gradient(135deg, $danger-dark 0%, $danger 100%);
+  }
+}
+
+.btn-save {
+  background: linear-gradient(135deg, $success 0%, color.scale($success, $lightness: -5%) 100%);
+  color: $text-inverse;
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, color.scale($success, $lightness: -5%) 0%, $success 100%);
+  }
+
+  &:disabled {
+    background: $gray-300;
+    color: $gray-500;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+.btn-cancel {
+  background: $gray-200;
+  color: $text-primary;
+
+  &:hover {
+    background: $gray-300;
+  }
+}
+
+.edit-form {
+  grid-column: 2 / -1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: $spacing-md;
+  align-items: center;
+  width: 100%;
+}
+
+.edit-input {
+  grid-column: 1;
+  padding: $spacing-sm $spacing-md;
+  border: 2px solid $primary;
+  border-radius: $radius-md;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+  background: $bg-primary;
+  transition: all $transition-base;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-dark;
+    box-shadow: 0 0 0 3px $primary-lighter;
+  }
+}
+
+.edit-actions {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: $spacing-sm;
+}
+
+// Responsive adjustments
+@media (max-width: $breakpoint-sm) {
+  .todo-item {
+    grid-template-columns: auto 1fr;
+    gap: $spacing-md;
+  }
+
+  .todo-content {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr;
+    gap: $spacing-sm;
+  }
+
+  .todo-title {
+    grid-column: 1;
+  }
+
+  .todo-actions {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .edit-form {
+    grid-column: 1 / -1;
+  }
+}
+

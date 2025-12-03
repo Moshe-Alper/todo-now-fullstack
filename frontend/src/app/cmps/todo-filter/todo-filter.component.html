@@ -1,0 +1,20 @@
+<div class="todo-filter">
+  <button 
+    [class.active]="isActive('all')"
+    (click)="setFilter('all')"
+    type="button">
+    All
+  </button>
+  <button 
+    [class.active]="isActive('active')"
+    (click)="setFilter('active')"
+    type="button">
+    Active
+  </button>
+  <button 
+    [class.active]="isActive('completed')"
+    (click)="setFilter('completed')"
+    type="button">
+    Completed
+  </button>
+</div>

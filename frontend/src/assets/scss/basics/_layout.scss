@@ -1,0 +1,82 @@
+@use "../setup/variables" as *;
+
+// Main Content Layout
+main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-xl;
+  padding: $spacing-xl $spacing-lg;
+  max-width: $container-xl;
+  margin: 0 auto;
+  width: 100%;
+
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-2xl;
+    gap: $spacing-2xl;
+  }
+}
+
+// Container Utilities
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+
+  @media (min-width: $breakpoint-sm) {
+    max-width: $container-sm;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    max-width: $container-md;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    max-width: $container-lg;
+  }
+
+  @media (min-width: $breakpoint-xl) {
+    max-width: $container-xl;
+  }
+
+  @media (min-width: $breakpoint-2xl) {
+    max-width: $container-2xl;
+  }
+}
+
+// Grid Utilities
+.grid {
+  display: grid;
+  gap: $grid-gap;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (min-width: $breakpoint-md) {
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: $breakpoint-lg) {
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

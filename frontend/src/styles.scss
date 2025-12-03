@@ -1,0 +1,11 @@
+@use "assets/scss/global";
+
+body:has(.click-outside) {
+  :is(.click-outside, .click-outside *) {
+      pointer-events: all;
+  }
+
+  *:not(.click-outside, .click-outside *) {
+      pointer-events: none;
+  }
+}
