@@ -144,8 +144,11 @@ export class TodoService {
       },
       error: (error) => {
         console.error('Error removing todo:', error)
-        // Restore on error
-        this.todosSubject.next([...currentTodos, todoToDelete])
+        // Restore on error - get current state and add back if not already present
+        const currentState = this.todosSubject.value
+        if (!currentState.find(t => t.id === id)) {
+          this.todosSubject.next([...currentState, todoToDelete])
+        }
       }
     })
   }
