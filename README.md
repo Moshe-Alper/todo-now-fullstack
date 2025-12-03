@@ -101,7 +101,7 @@ dotnet user-secrets set "CosmosDb:ConnectionString" "AccountEndpoint=...;Account
 ```
 
 #### Production (Azure App Settings)
-In Azure Portal → App Service → Configuration → Application settings:
+In Azure Portal → App Service → Environment variables → App settings → Add:
 - **Name:** `CosmosDb__ConnectionString` (use double underscore `__`)
 - **Value:** Your Cosmos DB connection string
 
