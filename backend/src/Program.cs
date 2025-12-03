@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -30,11 +32,24 @@ builder.Services.AddCors(options =>
         {
             // Production: Allow configured frontend URL or any origin (for flexibility)
             // To restrict to specific URL, set "Cors:AllowedOrigins" in appsettings.json or Azure App Settings
-            var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
+            var corsSection = builder.Configuration.GetSection("Cors:AllowedOrigins");
+            var allowedOrigins = new List<string>();
             
-            if (allowedOrigins != null && allowedOrigins.Length > 0)
+            if (corsSection.Exists())
             {
-                policy.WithOrigins(allowedOrigins)
+                foreach (var child in corsSection.GetChildren())
+                {
+                    var value = child.Value;
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        allowedOrigins.Add(value);
+                    }
+                }
+            }
+            
+            if (allowedOrigins.Count > 0)
+            {
+                policy.WithOrigins(allowedOrigins.ToArray())
                       .AllowAnyHeader()
                       .AllowAnyMethod()
                       .AllowCredentials();
