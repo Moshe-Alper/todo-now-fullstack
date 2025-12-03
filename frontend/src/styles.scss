@@ -74,4 +74,49 @@
       pointer-events: none;
     }
   }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgb(243, 244, 246) 0%,
+      rgb(229, 231, 235) 50%,
+      rgb(243, 244, 246) 100%
+    );
+    background-size: 2000px 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  .dark .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgb(31, 41, 55) 0%,
+      rgb(55, 65, 81) 50%,
+      rgb(31, 41, 55) 100%
+    );
+    background-size: 2000px 100%;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out;
+  }
 }

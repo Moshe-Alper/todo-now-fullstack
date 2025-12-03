@@ -17,6 +17,10 @@ export class TodoService {
   // Filter sources
   private _filterBy$ = new BehaviorSubject<FilterBy>({ isCompleted: null })
   
+  // Loading state
+  private _isLoading = signal(true)
+  public isLoading = this._isLoading.asReadonly()
+  
   // Signals
   filterBy_ = toSignal(this._filterBy$, { requireSync: true })
   allTodos_ = toSignal(this.todos$, { initialValue: [] })
@@ -49,13 +53,17 @@ export class TodoService {
   }
 
   private loadTodos(): void {
+    this._isLoading.set(true)
     this.http.get<Todo[]>(this.apiUrl, this.httpOptions).subscribe({
       next: (todos) => {
         this.todosSubject.next(todos)
+        // Small delay for smooth transition
+        setTimeout(() => this._isLoading.set(false), 300)
       },
       error: (error) => {
         console.error('Error loading todos:', error)
         this.todosSubject.next([])
+        this._isLoading.set(false)
       }
     })
   }
@@ -162,7 +170,11 @@ export class TodoService {
   }
 
   setFilterBy(filterBy: FilterBy): void {
+    // Brief loading state for smooth transition
+    this._isLoading.set(true)
     this._filterBy$.next({ ...filterBy })
+    // Clear loading after filter applies
+    setTimeout(() => this._isLoading.set(false), 150)
   }
 
   clearCompleted(): void {
