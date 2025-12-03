@@ -12,6 +12,7 @@ import { TodoPreviewComponent } from './cmps/todo-preview/todo-preview.component
 import { AddTodoComponent } from './cmps/add-todo/add-todo.component'
 import { TodoFilterComponent } from './cmps/todo-filter/todo-filter.component'
 import { TodoIndexComponent } from './cmps/todo-index/todo-index.component'
+import { AppFooterComponent } from "./cmps/app-footer/app-footer.component";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { TodoIndexComponent } from './cmps/todo-index/todo-index.component'
     TodoListComponent,
     TodoPreviewComponent,
     AddTodoComponent,
-    TodoIndexComponent
+    TodoIndexComponent,
+    AppFooterComponent
   ],
   imports: [
     BrowserModule,
