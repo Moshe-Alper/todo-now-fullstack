@@ -104,6 +104,7 @@ export class TodoService {
     if (index === -1) return
     
     const originalTodo = { ...currentTodos[index] }
+    const todoId = updatedTodo.id // Capture ID for rollback
     
     // Optimistically update UI immediately
     const updatedTodos = [...currentTodos]
@@ -117,10 +118,13 @@ export class TodoService {
       },
       error: (error) => {
         console.error('Error updating todo:', error)
-        // Rollback on error
+        // Rollback on error - find by ID in case list changed
         const rollbackTodos = [...this.todosSubject.value]
-        rollbackTodos[index] = originalTodo
-        this.todosSubject.next(rollbackTodos)
+        const rollbackIndex = rollbackTodos.findIndex(t => t.id === todoId)
+        if (rollbackIndex !== -1) {
+          rollbackTodos[rollbackIndex] = originalTodo
+          this.todosSubject.next(rollbackTodos)
+        }
       }
     })
   }
