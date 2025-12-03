@@ -1,10 +1,36 @@
 <section class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-  <ul *ngIf="todos().length > 0" class="divide-y divide-gray-100 dark:divide-gray-700">
-    <li *ngFor="let todo of todos()" class="transition-all duration-200 hover:bg-gray-50/50 dark:hover:bg-gray-700/50">
+  <!-- Skeleton Loaders -->
+  <ul *ngIf="isLoading()" class="divide-y divide-gray-100 dark:divide-gray-700 animate-fade-in">
+    <li *ngFor="let i of [1,2,3,4,5,6]" class="p-4">
+      <div class="flex items-center gap-3">
+        <!-- Checkbox skeleton -->
+        <div class="w-5 h-5 rounded border-2 border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-700 animate-shimmer flex-shrink-0"></div>
+        
+        <!-- Text skeleton -->
+        <div class="flex-1 space-y-2">
+          <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-shimmer" [style.width.%]="i % 2 === 0 ? 85 : 95"></div>
+        </div>
+        
+        <!-- Action buttons skeleton -->
+        <div class="flex items-center gap-2 opacity-0">
+          <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-shimmer"></div>
+          <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-shimmer"></div>
+        </div>
+      </div>
+    </li>
+  </ul>
+  
+  <!-- Real Todos -->
+  <ul *ngIf="!isLoading() && todos().length > 0" class="divide-y divide-gray-100 dark:divide-gray-700 animate-fade-in">
+    <li *ngFor="let todo of todos(); let i = index" 
+        class="transition-all duration-200 hover:bg-gray-50/50 dark:hover:bg-gray-700/50"
+        [style.animation-delay.ms]="i * 50">
       <todo-preview [todo]="todo"/>
     </li>
   </ul>
-  <div *ngIf="todos().length === 0" class="p-12 text-center">
+  
+  <!-- Empty State -->
+  <div *ngIf="!isLoading() && todos().length === 0" class="p-12 text-center animate-fade-in">
     <p class="text-gray-400 dark:text-gray-500 text-base font-normal">{{ emptyMessage() }}</p>
   </div>
 </section>

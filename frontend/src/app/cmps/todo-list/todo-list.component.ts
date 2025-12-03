@@ -13,6 +13,7 @@ export class TodoListComponent {
   todos: Signal<Todo[]> = this.todoService.filteredTodos_
   filterBy: Signal<any> = this.todoService.filterBy_
   allTodos: Signal<Todo[]> = this.todoService.allTodos_
+  isLoading = this.todoService.isLoading
   
   // Computed message based on filter state
   emptyMessage = computed(() => {
