@@ -1,6 +1,6 @@
 # Todo Now
 
-A full-stack todo application built with Angular (frontend) and ASP.NET Core (backend), deployed to Azure App Service.
+A Full-Stack todo application built with Angular (frontend) and ASP.NET Core (backend), deployed to Azure App Service.
 
 ## 🌐 Live Application
 
