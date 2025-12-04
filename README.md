@@ -2,7 +2,7 @@
 
 A Full-Stack todo application built with Angular (frontend) and ASP.NET Core (backend), deployed to Azure App Service.
 
-![App Preview](frontend/src/assets/img/screenshot.png)
+![App Preview](frontend/src/assets/img/app-screenshot.png)
 
 ## 🌐 Live Application
 
