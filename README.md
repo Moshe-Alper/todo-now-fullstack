@@ -38,32 +38,37 @@ Follow these steps to get the application running on a fresh machine:
 
 2. **Install dependencies**
    ```bash
-   # Backend
+   # Backend (from root directory)
    cd backend
    dotnet restore src/TodoApi.csproj
+   cd ..
    
-   # Frontend
-   cd ../frontend
+   # Frontend (from root directory)
+   cd frontend
    npm install
+   cd ..
    ```
 
 3. **Configure environment variables / secrets**
    ```bash
-   cd ../backend
+   # From root directory
+   cd backend
    # Initialize user secrets (first time only)
    dotnet user-secrets init --project src/TodoApi.csproj
    
    # Set your Cosmos DB connection string
    dotnet user-secrets set "CosmosDb:ConnectionString" "AccountEndpoint=...;AccountKey=...;" --project src/TodoApi.csproj
+   cd ..
    ```
 
-4. **Run the backend**
+4. **Run the backend** (from root directory)
    ```bash
+   cd backend
    dotnet run --project src/TodoApi.csproj
    # Backend will be available at http://localhost:5000
    ```
 
-5. **Run the frontend** (in a new terminal)
+5. **Run the frontend** (in a new terminal, from root directory)
    ```bash
    cd frontend
    npm start
